@@ -14,6 +14,14 @@ class Api::CatsController < ApplicationController
         end
     end
 
+    def produce
+        puts "request body is #{request.body.read}"
+        puts "params are #{params}"
+        
+        DeliveryBoy.deliver_async({"source" => params[:source]}, topic: "cats")
+        render json: {status:200, msg: 'great success'}
+    end
+
     private
     
     def cat_params
